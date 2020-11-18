@@ -272,26 +272,28 @@ Router.get("/menu", (req, res) => {
 
  //12--------------------------------------------------------------------------------
  Router.post("/addcustomer", (req, res) => {
-  let qb = req.body;
+  let values=[
+    req.body.customer_id,
+    req.body.SSN,
+    req.body.name,
+    req.body.sex,
+    req.body.birthdate,
+    req.body.phone_no,
+    req.body.memberpoint
+  ]
   const sql =
-    "SET @name = ?;SET @SSN = ?;SET @sex = ?;SET @birthdate = ?;SET @memberpoint = ?;SET @phone_no = ?;CALL AddCustomer(@name, @SSN, @sex, @birthdate, @memberpoint, @phone_no)";
+    "INSERT INTO customer(customer_id,SSN,name,sex,birthdate,phone_no,memberpoint) VALUES (?)";
   mysqlConnection.query(
     sql,
     [
-      qb.name,
-      qb.SSN,
-      qb.sex,
-      qb.birthdate,
-      qb.memberpoint,
-      qb.phone_no
+     values
     ],
     (err, results, fields) => {
       if (!err) {
-        results.forEach((element) => {
-          if (element.constructor == Array) res.send(element);
-        });
+        res.send(true);
       } else {
         console.log(err);
+        res.send(false);
       }
     }
   );

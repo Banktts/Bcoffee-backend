@@ -6,20 +6,34 @@ const Router = express.Router();
 //comit
 
  //11--------------------------------------------------------------------------------
- Router.get("/customer/:name", (req, res) => {
-  let getName = req.params.name;
-  console.log(getName);
-  mysqlConnection.query(
-      `SELECT customer_id, name, SSN, sex, birthdate, phone_no, memberpoint FROM customer where name = ${getName}`,
+Router.get("/customer/:customerId", (req, res) => {
+  let customer_id = req.params.customerId
+  if (customer_id == "") {
+    mysqlConnection.query(
+      `SELECT customer_id, name, SSN, sex, birthdate, phone_no, memberpoint FROM customer`,
       (err, results, fields) => {
-          if (!err) {
+        if (!err) {
           res.send(results);
           console.log(req.body);
-          } else {
+        } else {
           console.log(err);
-          }
+        }
       }
-      );
+    );
+  }
+  else {
+    mysqlConnection.query(
+      `SELECT customer_id, name, SSN, sex, birthdate, phone_no, memberpoint FROM customer WHERE customer_id = ${customer_id}`,
+      (err, results, fields) => {
+        if (!err) {
+          res.send(results);
+          console.log(req.body);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
 });
 
  //12--------------------------------------------------------------------------------

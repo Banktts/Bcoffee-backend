@@ -44,7 +44,7 @@ Router.get("/inventory/:branchId", (req, res) => {
     let item_id = req.params.itemId
     let newAmount = req.body.amount;
     const sql =
-      "SET @item_id = ?;SET @branch_id = ?;SET @newAmount = ?;CALL updateAmount(@item_id, @branch_id, @newAmount)";
+      "SET @item_id = ?;SET @branch_id = ?;SET @newAmount = ?;CALL updateAmountInventory(@item_id, @branch_id, @newAmount)";
     mysqlConnection.query(
       sql,
       [

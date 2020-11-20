@@ -38,7 +38,7 @@ Router.get("/inventory/:branchId", (req, res) => {
     }
   });
   
-  //8------------------------------------------------------------------
+  //8-------------------------------------------------------------------
   Router.put("/inventory/update/:branchId/:itemId", (req, res) => {
     let branch_id = req.params.branchId
     let item_id = req.params.itemId

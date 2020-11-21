@@ -5,10 +5,6 @@ const Router = express.Router();
 
 //7--------------------------------------------------------------------------
 Router.get("/inventory/:branchId", (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
     let branch_id = req.params.branchId;
     if (branch_id == "all") {
       mysqlConnection.query(

@@ -5,10 +5,6 @@ const Router = express.Router();
 
 //7--------------------------------------------------------------------------
 Router.get("/inventory/:branchId", (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
     let branch_id = req.params.branchId;
     if (branch_id == "all") {
       mysqlConnection.query(
@@ -38,13 +34,13 @@ Router.get("/inventory/:branchId", (req, res) => {
     }
   });
   
-  //8------------------------------------------------------------------
+  //8-------------------------------------------------------------------
   Router.put("/inventory/update/:branchId/:itemId", (req, res) => {
     let branch_id = req.params.branchId
     let item_id = req.params.itemId
     let newAmount = req.body.amount;
     const sql =
-      "SET @item_id = ?;SET @branch_id = ?;SET @newAmount = ?;CALL updateAmount(@item_id, @branch_id, @newAmount)";
+      "SET @item_id = ?;SET @branch_id = ?;SET @newAmount = ?;CALL updateAmountInventory(@item_id, @branch_id, @newAmount)";
     mysqlConnection.query(
       sql,
       [

@@ -38,9 +38,9 @@ Router.get("/inventory/:branchId", (req, res) => {
   Router.put("/inventory/update/:branchId/:itemId", (req, res) => {
     let branch_id = req.params.branchId
     let item_id = req.params.itemId
-    let newAmount = req.body.amount;
+    let newAmount = req.body.amountItem;
     const sql =
-      "SET @item_id = ?;SET @branch_id = ?;SET @newAmount = ?;CALL updateAmountInventory(@item_id, @branch_id, @newAmount)";
+      "SET @item_id = ?;SET @branch_id = ?;SET @newAmount = ?;CALL updateAmount(@item_id, @branch_id, @newAmount)";
     mysqlConnection.query(
       sql,
       [
@@ -59,5 +59,4 @@ Router.get("/inventory/:branchId", (req, res) => {
       }
     );
   });
-
 module.exports = Router;

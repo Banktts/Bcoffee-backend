@@ -35,9 +35,9 @@ Router.get("/employee/:branchId", (req, res) => {
 
 
   //2------------------------------------------------------------------
-Router.put("/update/position/:empId", (req, res) => {
+  Router.put("/update/position/:empId", (req, res) => {
     let emp_id = req.params.empId;
-    let position = req.body.newPosition;
+    let position = req.body.position;
     const sql =
       "SET @emp_id = ?;SET @position = ?;CALL updatePosition(@emp_id, @position)";
     mysqlConnection.query(

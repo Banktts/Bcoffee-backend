@@ -5,14 +5,20 @@ const Router = express.Router();
 
 
 //9-------------------------------------------------------------------------------
-Router.get("/branch/:branchId", (req, res) => {
-  let branch_id = req.params.branchId;
-  if (branch_id == "all") {
+Router.get("/branch", (req, res) => {res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', 'DELETE'); // If needed
+      res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+      res.setHeader('Access-Control-Allow-Credentials', true);
       mysqlConnection.query(
-        `SELECT ordert.branch_id, branch.street, sum(price*amount) as totalprice 
-        FROM ordert natural join orderline natural join menu, branch
-        where ordert.branch_id = branch.branch_id
-        group by branch_id;`,
+        `SELECT ordert.branch_id, branch.street, topspender_b(ordert.branch_id) as top_spender, 
+        sum(price*amount) as income, (select customer.name
+                        from ordert natural join orderline natural join menu, customer
+                        where ordert.customer_id = customer.customer_id
+                        group by customer.name
+                        order by sum(price*amount) desc limit 1) as topAll
+      FROM ordert natural join orderline natural join menu, branch
+      where ordert.branch_id = branch.branch_id
+      group by branch_id;`,
         (err, results, fields) => {
           if (!err) {
             res.send(results);
@@ -21,21 +27,6 @@ Router.get("/branch/:branchId", (req, res) => {
           }
         }
       );
-  } else {
-    mysqlConnection.query(
-      `SELECT ordert.branch_id, branch.street, sum(price*amount) as totalprice 
-      FROM ordert natural join orderline natural join menu, branch
-      where ordert.branch_id = branch.branch_id and ordert.branch_id = ${branch_id}
-      group by branch_id;`,
-      (err, results, fields) => {
-        if (!err) {
-          res.send(results);
-        } else {
-          console.log(err);
-        }
-      }
-    );
-  }
   });
 
 

@@ -6,9 +6,10 @@ const Router = express.Router();
 //comit
 
  //11--------------------------------------------------------------------------------
-Router.get("/customer/:customerId", (req, res) => {
-  let customer_id = req.params.customerId
-  if (customer_id == "") {
+ Router.get("/customer/:customerName", (req, res) => {
+  let customer_name = req.params.customerName
+  console.log(customer_name)
+  if (customer_name == "none") {
     mysqlConnection.query(
       `SELECT customer_id, name, SSN, sex, birthdate, phone_no, memberpoint FROM customer`,
       (err, results, fields) => {
@@ -23,7 +24,7 @@ Router.get("/customer/:customerId", (req, res) => {
   }
   else {
     mysqlConnection.query(
-      `SELECT customer_id, name, SSN, sex, birthdate, phone_no, memberpoint FROM customer WHERE customer_id = ${customer_id}`,
+      `SELECT customer_id, name, SSN, sex, birthdate, phone_no, memberpoint FROM customer WHERE name LIKE "${customer_name}%"`,
       (err, results, fields) => {
         if (!err) {
           res.send(results);
@@ -64,7 +65,6 @@ Router.get("/customer/:customerId", (req, res) => {
 });
 
  
-
 
 
 module.exports = Router;
